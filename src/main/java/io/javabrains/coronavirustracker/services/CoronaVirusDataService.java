@@ -66,9 +66,6 @@ public class CoronaVirusDataService {
             System.out.println(locationStats);
             newStats.add(locationStats);
         }
-
         this.allStats = newStats;
-
-
     }
 }

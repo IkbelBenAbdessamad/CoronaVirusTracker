@@ -1,7 +1,13 @@
 package io.javabrains.coronavirustracker.models;
 
+import javax.validation.constraints.NotNull;
+
+
 public class LocationStats {
+
+    @NotNull
     private String state;
+    @NotNull
     private String country;
     private int LatestTotalCases;
     private int diffFromPrevDay;

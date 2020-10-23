@@ -2,40 +2,40 @@ package io.javabrains.coronavirustracker.controller;
 
 import io.javabrains.coronavirustracker.models.LocationStats;
 import io.javabrains.coronavirustracker.services.CoronaVirusDataService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-class HomeControllerTest {
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@WebMvcTest(controllers = HomeController.class)
+@Disabled
+public class HomeControllerTest {
+
     @Mock
     private CoronaVirusDataService coronaVirusDataService;
 
-    @InjectMocks
-    private HomeController homeController;
 
+    @Autowired
     private MockMvc mockMvc;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
-        mockMvc = MockMvcBuilders.standaloneSetup(homeController).build();
-    }
-
     @Test
-    public void testList() throws Exception {
+    public void validateHomeController() throws Exception {
+        List<LocationStats> locationStats = Arrays.asList(
+                new LocationStats("US", "New York", 10000, 200)
+        );
+        when(coronaVirusDataService.getAllStats()).thenReturn(locationStats);
 
-        List<LocationStats> locationStats = new ArrayList<>();
-        locationStats.add(new LocationStats("US", "New York", 120000, 1000));
-        locationStats.add(new LocationStats("", "Tunisia", 12000, 200));
 
+        mockMvc.perform(post("/")).andExpect(status().isOk());
 
 
     }
